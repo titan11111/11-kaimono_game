@@ -1,0 +1,448 @@
+/* 基本設定 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    color: #fff;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto; /* スクロールを可能にする */
+}
+
+/* ヘッダー */
+.game-header {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 15px 20px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.game-header h1 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: #f39c12;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.stats > div {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+/* メインコンテナ */
+.game-container {
+    max-width: 600px; /* 必要に応じて調整 */
+    margin: 0 auto;
+    padding: 20px;
+    /* max-width を削除または調整 */
+}
+
+/* お客さんエリア */
+.customer-area {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.customer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.customer-avatar {
+    font-size: 4rem;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* 画像がはみ出さないように */
+}
+
+.customer-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.customer-speech {
+    background: #3498db;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 20px;
+    position: relative;
+    max-width: 80%;
+}
+
+.customer-speech::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 10px solid transparent;
+    border-bottom-color: #3498db;
+}
+
+/* 商品エリア */
+.inventory-area {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.inventory-area h3 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #f39c12;
+}
+
+.items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.item {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.item:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.item.selected {
+    border-color: #f39c12;
+    background: rgba(243, 156, 18, 0.2);
+    box-shadow: 0 0 15px rgba(243, 156, 18, 0.5); /* 選択時のシャドウを追加 */
+}
+
+.item-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.item-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.item-quality {
+    font-size: 0.8rem;
+    padding: 3px 8px;
+    border-radius: 12px;
+    display: inline-block;
+}
+
+.item-quality.fake {
+    background: #e74c3c;
+    color: white;
+}
+
+.item-quality.real {
+    background: #27ae60;
+    color: white;
+}
+
+/* アクションボタンエリア */
+.action-area {
+    display: grid;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.action-btn {
+    background: linear-gradient(45deg, #3498db, #2980b9);
+    color: white;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.action-btn:active {
+    transform: translateY(0);
+}
+
+.sell-btn {
+    background: linear-gradient(45deg, #95a5a6, #7f8c8d);
+}
+
+.lie-btn {
+    background: linear-gradient(45deg, #e74c3c, #c0392b);
+}
+
+.upgrade-btn {
+    background: linear-gradient(45deg, #f39c12, #e67e22);
+}
+
+.action-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* 結果エリア */
+.result-area {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.result-box {
+    background: white;
+    color: #333;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 90%;
+    max-height: 80%;
+    overflow-y: auto;
+}
+
+.result-box h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.next-btn {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+/* ゲームオーバーエリア */
+.gameover-area {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.gameover-box {
+    background: white;
+    color: #333;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 90%;
+}
+
+.gameover-box h2 {
+    color: #e74c3c;
+    margin-bottom: 20px;
+}
+
+.restart-btn {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+/* ヘルプボタン */
+.help-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #f39c12;
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+}
+
+/* モーダル */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.modal-content {
+    background: white;
+    color: #333;
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 90%;
+    max-height: 80%;
+    overflow-y: auto;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #666;
+}
+
+.help-content ul {
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.help-content li {
+    margin-bottom: 8px;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .game-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .stats {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .stats > div {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+    
+    .game-container {
+        padding: 15px;
+    }
+    
+    .customer-avatar {
+        font-size: 3rem;
+        width: 60px;
+        height: 60px;
+    }
+    
+    .items-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 10px;
+    }
+    
+    .item {
+        padding: 10px;
+    }
+    
+    .item-icon {
+        font-size: 2rem;
+    }
+    
+    .action-btn {
+        padding: 12px 15px;
+        font-size: 1rem;
+    }
+    
+    .result-box,
+    .gameover-box,
+    .modal-content {
+        padding: 20px;
+        margin: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-header {
+        padding: 10px 15px;
+    }
+    
+    .game-header h1 {
+        font-size: 1.3rem;
+    }
+    
+    .customer-speech {
+        font-size: 0.9rem;
+        padding: 12px 15px;
+    }
+    
+    .items-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .action-btn {
+        font-size: 0.9rem;
+        padding: 10px 15px;
+    }
+}
+
+/* 既存のcustomer-imgスタイルは不要になりましたが、念のため残しておきます */
+/* .customer-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+} */
